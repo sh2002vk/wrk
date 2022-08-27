@@ -1,9 +1,8 @@
-pymongo
-pymongo[srv]
+pymongo[all]
 twilio
 requests
 beautifulsoup4
-fastapi[all]
+fastapi
 fastapi_utils
 pandas
 uvicorn

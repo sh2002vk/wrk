@@ -1,4 +1,5 @@
 pymongo
+pymongo[srv]
 twilio
 requests
 beautifulsoup4

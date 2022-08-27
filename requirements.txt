@@ -7,3 +7,4 @@ fastapi[all]
 fastapi_utils
 pandas
 uvicorn
+dnspython

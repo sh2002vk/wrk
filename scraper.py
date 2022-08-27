@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import hashlib
+from sms import send_message
 
 link = "https://www.cscareers.dev/job-postings"
 page = requests.get(link)
@@ -22,28 +23,31 @@ def get_jobs(latest_intern):
     job_list = []
     newHash = latest_intern
 
-    for i in python_jobs:
-        company_location = list(i.find("div", class_=company_location_class))
-        company = company_location[0].text
-        location = company_location[1].text
-        category = i.find("p", class_=category_class).text
-        date = i.find("time").text
+    try:
+        for i in python_jobs:
+            company_location = list(i.find("div", class_=company_location_class))
+            company = company_location[0].text
+            location = company_location[1].text
+            category = i.find("p", class_=category_class).text
+            date = i.find("time").text
 
-        my_string_bits = str(company+location+category).encode('utf-8')
-        hash = hashlib.sha256(my_string_bits).hexdigest()
+            my_string_bits = str(company+location+category).encode('utf-8')
+            hash = hashlib.sha256(my_string_bits).hexdigest()
 
-        if category == "Intern":
-            if hash == latest_intern:
-                print("breaking")
-                break
-            else:
-                job_list.append({
-                    "company": company,
-                    "location": location,
-                    "category": category,
-                    "date": date,
-                    "hash": hash
-                })
+            if category == "Intern":
+                if hash == latest_intern:
+                    print("breaking")
+                    break
+                else:
+                    job_list.append({
+                        "company": company,
+                        "location": location,
+                        "category": category,
+                        "date": date,
+                        "hash": hash
+                    })
+    except Exception as e:
+        send_message(f"SCRAPING ERROR - {e}")
 
     if len(job_list) > 0:
         newHash = job_list[0]["hash"]
@@ -58,5 +62,5 @@ def convert_epoch(date):
         epoch = (datetime.strptime(date, p) - origin).total_seconds()
         return epoch
     except Exception as e:
-        print("date exception")
+        send_message(f"error - {e}")
     return 0

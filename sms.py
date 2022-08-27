@@ -28,3 +28,11 @@ def send_notif(job_list):
         except Exception as e:
             print("twilio fail")
 
+
+def send_message(body):
+    client.messages.create(
+        body=body,
+        from_=service,
+        to='+17789977375'
+    )
+

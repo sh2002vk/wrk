@@ -3,7 +3,7 @@ pymongo[srv]
 twilio
 requests
 beautifulsoup4
-fastapi
+fastapi[all]
 fastapi_utils
 pandas
 uvicorn

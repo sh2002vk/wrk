@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from pandas import DataFrame
+from sms import send_message
 import os
 
 connection_str = os.getenv("mongoConnection")
@@ -27,7 +28,7 @@ def add_single(job: dict):
         client['job_list']['intern'].insert_one(job)
         return True
     except Exception as e:
-        print(f"MONGO INSERTION ERROR - single - {e}")
+        send_message(f"MONGO INSERTION ERROR - single - {e}")
     return False
 
 
@@ -38,7 +39,7 @@ def add_multiple(job_list: list):
         client['job_list']['intern'].insert_many(job_list)
         return True
     except Exception as e:
-        print(f"MONGO INSERTION ERROR - multiple - {e}")
+        send_message(f"MONGO INSERTION ERROR - multiple - {e}")
     return False
 
 
@@ -77,7 +78,7 @@ def update_latest(company: str):
         client['job_list']['intern'].update_one(myquery, newValue)
         return True
     except Exception as e:
-        print(f"LATEST ROLE UPDATE FAILED - {e}")
+        send_message(f"LATEST ROLE UPDATE FAILED - {e}")
     return False
 
 
@@ -88,7 +89,7 @@ def update_queue(job_list):
         client['job_list']['announce_queue'].insert_many(job_list)
         return True
     except Exception as e:
-        print(f"MONGO INSERTION ERROR - multiple - {e}")
+        send_message(f"MONGO INSERTION ERROR - multiple - {e}")
     return False
 
 

@@ -7,6 +7,11 @@ from scraper import get_jobs
 app = FastAPI()
 
 
+@app.get("/")
+async def root():
+    return {"message": "Starting server"}
+
+
 @app.on_event("startup")
 @app.get("/startup/on")
 async def on():
